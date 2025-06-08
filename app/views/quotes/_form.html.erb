@@ -1,0 +1,31 @@
+<%= form_with model: quote, local: true, class: 'quote-form' do |form| %>
+    <% if quote.errors.any? %>
+      <div class="error-messages">
+        <h4><%= pluralize(quote.errors.count, "error") %> prohibited this quote from being saved:</h4>
+        <ul>
+          <% quote.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <div class="field">
+      <%= form.label :content %>
+      <%= form.text_area :content, rows: 4, placeholder: "Enter the quote..." %>
+    </div>
+  
+    <div class="field">
+      <%= form.label :author %>
+      <%= form.text_field :author, placeholder: "Who said this?" %>
+    </div>
+  
+    <div class="field">
+      <%= form.label :category %>
+      <%= form.text_field :category, placeholder: "e.g., Motivation, Love, Wisdom" %>
+    </div>
+  
+    <div class="actions">
+      <%= form.submit class: 'btn btn-primary' %>
+    </div>
+  <% end %>

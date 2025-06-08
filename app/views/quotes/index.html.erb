@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="header">
+    <h1>Quote Collector</h1>
+    <%= link_to 'Add New Quote', new_quote_path, class: 'btn btn-primary' %>
+    <%= link_to 'Random Quote', random_path, class: 'btn btn-secondary' %>
+  </div>
+
+  <div class="filters">
+    <%= form_with url: quotes_path, method: :get, local: true, class: 'search-form' do |form| %>
+      <div class="search-row">
+        <%= form.text_field :search, placeholder: "Search quotes or authors...", value: params[:search] %>
+        <%= form.select :author, options_for_select([['All Authors', '']] + @authors.map {|a| [a, a]}), {selected: params[:author]}, {prompt: false} %>
+        <%= form.select :category, options_for_select([['All Categories', '']] + @categories.map {|c| [c, c]}), {selected: params[:category]}, {prompt: false} %>
+        <%= form.submit 'Filter', class: 'btn btn-outline' %>
+        <%= link_to 'Clear', quotes_path, class: 'btn btn-outline' %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="quotes-grid">
+    <% if @quotes.any? %>
+      <% @quotes.each do |quote| %>
+        <div class="quote-card">
+          <div class="quote-content">
+            <p>"<%= quote.content %>"</p>
+          </div>
+          <div class="quote-meta">
+            <span class="author">— <%= quote.author %></span>
+            <span class="category"><%= quote.category %></span>
+          </div>
+          <div class="quote-actions">
+            <%= link_to 'View', quote, class: 'btn btn-sm' %>
+            <%= link_to 'Edit', edit_quote_path(quote), class: 'btn btn-sm' %>
+            <%= link_to 'Delete', quote, method: :delete, 
+                        confirm: 'Are you sure?', class: 'btn btn-sm btn-danger' %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="no-quotes">
+        <p>No quotes found. <%= link_to 'Add your first quote!', new_quote_path %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
